@@ -56,20 +56,68 @@ analyzeButton.addEventListener('click', async () => {
     }
 });
 
-// 분석 결과를 HTML로 만들어 화면에 표시하는 함수 (이전과 동일)
+// script.js
+
+// 분석 결과를 HTML로 만들어 화면에 표시하는 함수
 function displayResults(data) {
-    // ... (이전 코드와 동일하게 유지)
     let html = '<h2>🔍 분석 결과</h2>';
-    for (const category in data) {
-        const { description, completed, remaining } = data[category];
-        html += `
-            <div class="category-result">
-                <h3>${category}</h3>
-                <p>${description}</p>
-                <p><strong>이수한 과목 ✅:</strong> ${completed.length > 0 ? completed.join(', ') : '없음'}</p>
-                <p><strong>남은 과목 📝:</strong> ${remaining.length > 0 ? remaining.join(', ') : '없음'}</p>
-            </div>
-        `;
+    const categoryOrder = ["전공 필수", "전공 선택", "필수 교양", "학문의 세계", "예체능", "기타 이수 과목"];
+
+    for (const category of categoryOrder) {
+        if (!data[category]) continue;
+        const details = data[category];
+        
+        html += `<div class="category-result"><h3>${category}</h3>`;
+        if (details.description) {
+            html += `<p class="description">${details.description}</p>`;
+        }
+        html += `<div class="result-content">`;
+
+        // 백엔드에서 받은 displayType에 따라 UI를 다르게 생성
+        switch (details.displayType) {
+            case 'list_all':
+                html += `<p><strong>✅ 이수한 과목:</strong> ${details.completed.length > 0 ? details.completed.join(', ') : '없음'}</p>`;
+                html += `<p><strong>📝 미이수 과목:</strong> ${details.remaining.length > 0 ? details.remaining.join(', ') : '없음'}</p>`;
+                break;
+
+            case 'list_remaining_custom':
+                html += `<p><strong>📝 미이수 항목:</strong> ${details.remaining.length > 0 ? details.remaining.join(', ') : '모두 이수 완료'}</p>`;
+                break;
+
+            case 'count':
+                const isCompleted = details.completedCount >= details.requiredCount;
+                html += `<p class="summary ${isCompleted ? 'completed' : 'in-progress'}">
+                            <strong>상태: ${details.requiredCount}개 중 ${details.completedCount}개 이수 ${isCompleted ? '✔️' : ''}</strong>
+                         </p>`;
+                if (details.completed.length > 0) {
+                  html += `<p><strong>✅ 이수한 과목:</strong> ${details.completed.join(', ')}</p>`;
+                }
+                break;
+
+            case 'group_count':
+                const isGroupCompleted = details.completedCount >= details.requiredCount;
+                html += `<p class="summary ${isGroupCompleted ? 'completed' : 'in-progress'}">
+                            <strong>상태: 5개 영역 중 ${details.completedCount}개 영역 이수 (3개 이상 필요) ${isGroupCompleted ? '✔️' : ''}</strong>
+                         </p>`;
+                if (details.completed.length > 0) {
+                    // 이수한 과목과 그 과목이 속한 그룹을 함께 표시
+                    const completedCoursesWithGroup = details.completed.map(c => `${c.name} (${c.group})`);
+                    html += `<p><strong>✅ 이수한 과목 (영역):</strong> ${completedCoursesWithGroup.join(', ')}</p>`;
+                }
+                if (details.remaining.length > 0) {
+                    html += `<p><strong>📝 남은 영역:</strong> ${details.remaining.join(', ')}</p>`;
+                }
+                break;
+            
+            case 'list_completed_only':
+                if (details.completed.length > 0) {
+                  html += `<p><strong>✅ 이수한 과목:</strong> ${details.completed.join(', ')}</p>`;
+                } else {
+                  html += `<p>이수한 과목이 없습니다.</p>`;
+                }
+                break;
+        }
+        html += `</div></div>`;
     }
     resultArea.innerHTML = html;
 }
