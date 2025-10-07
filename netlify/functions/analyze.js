@@ -33,8 +33,19 @@ exports.handler = async (event) => {
                 categoryData.courses.forEach(course => {
                     const courseName = typeof course === 'object' ? course.name : course;
                     allRequiredCourseNames.add(courseName);
+
                     const matches = stringSimilarity.findBestMatch(courseName, ocrWords);
-                    if (matches.bestMatch.rating > 0.2) {
+
+                    // 1. 기본 유사도 기준을 0.2로 설정
+                    let threshold = 0.2;
+
+                    // 2. '의예과신입생세미나' 과목일 경우 기준을 0.5로 변경
+                    if (courseName === "의예과신입생세미나") {
+                        threshold = 0.5;
+                    }
+
+                    // 3. 최종 설정된 기준(threshold)으로 이수 여부 판단
+                    if (matches.bestMatch.rating > threshold) {
                         completed.push(courseName);
                     } else {
                         remaining.push(courseName);
