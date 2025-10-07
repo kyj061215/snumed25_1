@@ -27,6 +27,11 @@ analyzeButton.addEventListener('click', async () => {
             loadingText.textContent = `이미지 분석 중 (${i + 1}/${files.length})... 잠시만 기다려주세요.`;
             
             const worker = await Tesseract.createWorker('kor'); // 한국어 모델 사용
+            
+            await worker.setParameters({
+        tessedit_char_blacklist: '0123456789',
+    });
+            
             const ret = await worker.recognize(file);
             allText += ret.data.text + '\n';
             await worker.terminate(); // 작업 완료 후 worker 종료
