@@ -34,14 +34,14 @@ analyzeButton.addEventListener('click', async () => {
 
         // --- 여기에 체크리스트 데이터 수집 로직 추가 ---
         const checklistData = {
-            'req-volunteer': document.getElementById('req-volunteer').checked,
-            'req-cpr': document.getElementById('req-cpr').checked,
-            'req-leadership': document.getElementById('req-leadership').checked,
-            'req-reading': document.getElementById('req-reading').checked,
-            'elec-council': document.getElementById('elec-council').checked,
-            'elec-club': document.getElementById('elec-club').checked,
-            'elec-award': document.getElementById('elec-award').checked,
-            'elec-exchange': document.getElementById('elec-exchange').checked,
+            'volunteer': document.getElementById('volunteer').checked,
+            'cpr': document.getElementById('cpr').checked,
+            'leadership': document.getElementById('leadership').checked,
+            'reading': document.getElementById('reading').checked,
+            'HnS': document.getElementById('HnS').checked,
+            'study': document.getElementById('study').checked,
+            'cpm': document.getElementById('cpm').checked,
+            'teps': document.getElementById('teps').checked,
         };
 
         loadingText.textContent = '분석 결과를 서버에서 받아오는 중...';
