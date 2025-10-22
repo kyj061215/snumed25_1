@@ -185,3 +185,16 @@ button#analyze-button:hover {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* 선택 취소 버튼 텍스트 강제 변경 */
+.choices__list--multiple .choices__item .choices__button {
+    color: transparent; /* 기존 텍스트 숨기기 */
+    position: relative;
+}
+.choices__list--multiple .choices__item .choices__button::after {
+    content: '선택 취소'; /* 새로운 텍스트 추가 */
+    color: #007bff; /* 버튼 텍스트 색상 (원하는 색으로 변경 가능) */
+    position: absolute;
+    left: 6px; /* 위치 조정 */
+    top: 2px; /* 위치 조정 */
+    font-size: 0.8rem; /* 글자 크기 */
+}
