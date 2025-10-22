@@ -3,14 +3,15 @@ const analyzeButton = document.getElementById('analyze-button');
 const resultArea = document.getElementById('result-area');
 const loadingIndicator = document.getElementById('loading');
 
-// === Choices.js 초기화 코드 추가 ===
+// === Choices.js 초기화 코드 수정 ===
 const electiveSelectElement = document.getElementById('elective-courses-select');
-// Choices 라이브러리를 사용하여 select 요소를 향상시킵니다.
 const choices = new Choices(electiveSelectElement, {
-    removeItemButton: true, // 선택 항목 제거 버튼 활성화
+    removeItemButton: true,
     placeholder: true,
-    placeholderValue: '이수 완료한 과목을 선택하세요...', // 기본 안내 문구
-    searchPlaceholderValue: '과목 검색...', // 검색창 안내 문구
+    placeholderValue: '이수 완료한 과목을 선택하세요...',
+    searchPlaceholderValue: '과목 검색...',
+    // 여기에 removeItemText 옵션을 추가합니다.
+    removeItemText: '선택 취소', // 버튼 텍스트 변경
 });
 // ===================================
 
