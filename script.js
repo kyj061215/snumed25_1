@@ -48,13 +48,17 @@ analyzeButton.addEventListener('click', async () => {
         });
 
         // 1-2. Choices.js를 통해 선택된 '전공 선택' 과목 목록 가져오기
-        // Choices.js 인스턴스에서 선택된 값들을 가져옵니다.
-        const selectedElectives = choices.getValue(true); // true는 값만 가져오도록 함
-        completedCourses.push(...selectedElectives); // 선택된 과목들을 completedCourses 배열에 추가
+        const selectedElectives = choices.getValue(true);
+        completedCourses.push(...selectedElectives);
+        
+        // --- 1-3. 여기에 '필수 교양' 과목을 읽는 코드를 추가합니다 ---
+        document.querySelectorAll('#liberal-arts-courses-list input[type="checkbox"]:checked').forEach(checkbox => {
+            completedCourses.push(checkbox.value);
+        });
+        // -------------------------------------------------------------
 
-        // 1-3. 수집된 모든 과목 이름을 공백으로 구분된 하나의 텍스트로 만들기
+        // 1-4. 수집된 모든 과목 이름을 하나의 텍스트로 만들기
         const allText = completedCourses.join(' ');
-
         // --- 2. 비교과 체크리스트 데이터 수집 ---
         const checklistData = {
             'volunteer': document.getElementById('volunteer').checked,
