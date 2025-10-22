@@ -123,11 +123,12 @@ button:hover {
 
 .hidden {
     display: none;
-}
-/* 1. Choices.js가 적용된 원래의 select 태그 숨기기 */
+}/* style.css */
+
+/* 1. Choices.js가 적용된 원래의 select 태그 숨기기 (강화) */
 /* (사진의 맨 아래 리스트 제거) */
 select[multiple]#elective-courses-select {
-    display: none; /* Choices.js가 이미 숨기지만, 확실하게 하기 위해 추가 */
+    display: none !important; /* !important를 추가하여 확실하게 숨김 */
 }
 
 /* 2. Choices.js '선택 취소' 버튼 스타일 조정 */
@@ -145,4 +146,3 @@ select[multiple]#elective-courses-select {
 .choices__list--multiple .choices__item .choices__button:hover {
     background-color: rgba(0,0,0,0.1);
 }
-
