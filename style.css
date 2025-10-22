@@ -124,3 +124,25 @@ button:hover {
 .hidden {
     display: none;
 }
+/* 1. Choices.js가 적용된 원래의 select 태그 숨기기 */
+/* (사진의 맨 아래 리스트 제거) */
+select[multiple]#elective-courses-select {
+    display: none; /* Choices.js가 이미 숨기지만, 확실하게 하기 위해 추가 */
+}
+
+/* 2. Choices.js '선택 취소' 버튼 스타일 조정 */
+.choices__list--multiple .choices__item .choices__button {
+    /* 기존 스타일을 일부 덮어씁니다 */
+    padding: 2px 6px;       /* 버튼 내부 여백 줄이기 */
+    font-size: 0.8rem;      /* 버튼 글자 크기 줄이기 */
+    background-image: none; /* 기본 X 아이콘 제거 (텍스트만 보이도록) */
+    border-left: 1px solid rgba(0,0,0,0.2); /* 왼쪽에 구분선 추가 */
+    margin-left: 8px;       /* 태그 이름과 버튼 사이 간격 */
+    border-radius: 0 3px 3px 0; /* 오른쪽 모서리만 둥글게 */
+}
+
+/* 마우스 올렸을 때 효과 (선택 사항) */
+.choices__list--multiple .choices__item .choices__button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
