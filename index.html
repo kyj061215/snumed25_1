@@ -43,12 +43,18 @@
                     <option value="의생명과학 논문의 이해">의생명과학 논문의 이해</option>
                     <option value="의학연구의 실제">의학연구의 실제</option>
                     <option value="통일의료">통일의료</option>
-                    <option value="타단과대 전공 (자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부/교양 X)" data-duplicate="true">타단과대 전공 (자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부/교양 X)</option>
                 </select>
 </div>
             <div class="sub-section">
-                    <h4>*타단과대 전공을 수강한 경우, <span class="highlight">수강한 과목 수만큼</span> '타단과대 전공'을 선택해주세요</h4>
+                    <h4>*타단과대 전공을 수강한 경우, 아래를 체크 후 <span class="highlight">수강한 과목 수</span> 를 입력해주세요</h4>
+                <div class="extra-option-container">
+                    <label>
+                        <input type="checkbox" id="other-college-checkbox">
+                        타단과대 전공 수강 (자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부)
+                    </label>
+                    <input type="number" id="other-college-count" min="0" placeholder="수강 횟수">
                 </div>
+            </div>
 
             <div class="course-section">
             <h3>3. 필수 교양</h3>
