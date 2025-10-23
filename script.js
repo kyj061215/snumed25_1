@@ -246,31 +246,38 @@ function displayResults(data) {
     resultArea.innerHTML = html;
 }
 
-// (핵심!) '타단과대 전공' 중복 선택을 위한 이벤트 리스너
-// 이 코드가 script.js 파일 맨 아래에 있어야 합니다.
-// =======================================================
 if (electiveSelectElement) {
+    // 중복을 허용할 특별 항목을 미리 정의해 둡니다.
+    const specialChoice = {
+        value: '타단과대 전공 (자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부/교양 X)',
+        label: '타단과대 전공 (자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부/교양 X)',
+        customProperties: {
+            duplicate: 'true'
+        }
+    };
+
     electiveSelectElement.addEventListener('addItem', function(event) {
-        // event.detail.customProperties를 통해 HTML의 data-* 속성을 읽어옵니다.
         const isDuplicateAllowed = event.detail.customProperties?.duplicate === 'true';
 
-        // 만약 중복이 허용되는 특별 옵션("타단과대 전공")이라면,
         if (isDuplicateAllowed) {
-            // (가장 중요!) 이 코드가 선택된 항목을 목록에 다시 나타나게 합니다.
-            electiveChoices.enableChoice(event.detail.value);
-            
-            // 최대 선택 개수 제한(maxItemCount)을 일시적으로 하나 늘려줍니다.
+            // (핵심!) 타이밍 문제를 피하기 위해, 아주 잠깐의 지연 후 항목을 강제로 다시 추가합니다.
+            setTimeout(() => {
+                // 현재 드롭다운에 남아있는 선택지 목록을 가져옵니다.
+                const currentChoices = electiveChoices.store.getChoices();
+                // 특별 항목을 목록에 다시 추가합니다.
+                currentChoices.push(specialChoice);
+                // 변경된 목록으로 드롭다운을 완전히 새로 설정합니다.
+                electiveChoices.setChoices(currentChoices, 'value', 'label', true);
+            }, 10); // 10ms 지연으로 충돌 방지
+
+            // 최대 선택 개수 제한을 일시적으로 늘려줍니다.
             electiveChoices.config.maxItemCount++;
         }
     });
 
     electiveSelectElement.addEventListener('removeItem', function(event) {
-        // 제거된 항목이 중복 허용 항목이었는지 확인합니다.
         const isDuplicateAllowed = event.detail.customProperties?.duplicate === 'true';
-
-        // 만약 중복 허용 항목이 제거되었다면,
         if (isDuplicateAllowed) {
-            // 일시적으로 늘렸던 최대 선택 개수 제한을 다시 원래대로 줄입니다.
             electiveChoices.config.maxItemCount--;
         }
     });
