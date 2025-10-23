@@ -30,6 +30,9 @@ h3 {
     font-size: 1.1rem; /* 18px */
     margin-bottom: 16px;
 }
+h4 {
+    font-size: 1.0rem; 
+}
 
 .subtitle {
     font-size: 1rem; /* 16px */
