@@ -31,6 +31,16 @@ const artsChoices = new Choices(artsSelectElement, {
     // 예체능은 개수 제한이 없으므로 maxItemCount는 제외
 });
 // ===================================
+// --- 4. '외국어' Choices.js 초기화 추가 ---
+const languageSelectElement = document.getElementById('foreign-language-select');
+const languageChoices = new Choices(languageSelectElement, {
+    removeItemButton: true,
+    placeholder: true,
+    placeholderValue: '수강한 외국어 과목을 검색 및 선택하세요',
+    searchPlaceholderValue: '과목 검색...',
+    maxItemCount: 2, // 최대 2개까지 선택 가능
+    maxItemText: (maxItemCount) => `2개까지만 선택할 수 있습니다.`,
+});
 
 // '분석 시작!' 버튼 클릭 이벤트
 analyzeButton.addEventListener('click', async () => {
