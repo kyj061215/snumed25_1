@@ -43,6 +43,8 @@ const languageChoices = new Choices(languageSelectElement, {
     maxItemText: (maxItemCount) => `2개까지만 선택할 수 있습니다.`,
 });
 
+analyzeButton.addEventListener('click', async () => {
+    
     // 로딩 UI 표시
     loadingIndicator.classList.remove('hidden');
     resultArea.innerHTML = '';
