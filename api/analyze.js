@@ -123,7 +123,7 @@ export default async function handler(req, res) {
     const otherCollegeCredits = (allText.match(/타단과대 전공/g) || []).length;
     if (otherCollegeCredits > 0) {
       totalElectiveCredits += otherCollegeCredits;
-      completedElectiveCourses.push(`타단과대 전공 (${otherCollegeCredits}학점)`);
+      completedElectiveCourses.push(`타단과대(자연대, 농생대, 공대, 수의대, 치대, 혁신공유학부) 전공 (${otherCollegeCredits}학점)`);
     }
 
     const remainingCredits = Math.max(0, requiredElectiveCredits - totalElectiveCredits);
@@ -250,7 +250,7 @@ const extraArtsCredits = (allText.match(/음미대, 미학과 전공\/교양/g) 
 if (extraArtsCredits > 0) {
     totalArtsCredits += extraArtsCredits;
     // 이수한 과목 목록에 추가하여 사용자에게 보여줍니다.
-    completedArtsCourses.push(`음미대/미학과 (${extraArtsCredits}학점)`);
+    completedArtsCourses.push(`음미대, 인문대 미학과 전공/교양 (${extraArtsCredits}학점)`);
 }
 
 // 남은 학점을 계산합니다.
