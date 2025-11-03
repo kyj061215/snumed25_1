@@ -186,11 +186,11 @@ function displayResults(data) {
                     const elementId = `courses-list-${safeCategoryName}`; // 예: "courses-list-전공선택", "courses-list-예체능"
                     
                     html += `<div class="recommendation-area single-button-area">`;
-                    html += `<strong>💡 추천 과목 (클릭하여 확인):</strong>`;
+                    html += `<strong>💡 수강 가능 과목 (클릭하여 확인):</strong>`;
                     
                     // ❗️ [수정] 버튼의 onclick이 올바른 elementId를 참조
                     html += `<button class="toggle-button" onclick="toggleCourseList('${elementId}')">
-                                 추천 과목 목록
+                                 <전공 선택> 과목 목록
                              </button>`;
                     
                     const courseListHtml = details.recommended.map(course => `<li>${course}</li>`).join('');
@@ -210,7 +210,7 @@ function displayResults(data) {
                 const remainingGroupsCount = Math.max(0, 5 - details.completedGroupCount);
                 const remainingCredits = Math.max(0, details.requiredCredits - details.totalAcademiaCredits);
 
-                html += `<p class="summary ${isGroupMet ? 'completed' : 'in-progress'}"><strong>그룹: 5개 영역 중 ${details.completedGroupCount}개 영역 이수 (${remainingGroupsCount}개 영역 남음) ${isGroupMet ? '✔️' : ''}</strong></p>`;
+                html += `<p class="summary ${isGroupMet ? 'completed' : 'in-progress'}"><strong>영역: 5개 영역 중 ${details.completedGroupCount}개 영역 이수 (${remainingGroupsCount}개 영역 남음) ${isGroupMet ? '✔️' : ''}</strong></p>`;
                 html += `<p class="summary ${isCreditMet ? 'completed' : 'in-progress'}"><strong>학점: ${details.requiredCredits}학점 중 ${details.totalAcademiaCredits}학점 이수 (${remainingCredits}학점 남음) ${isCreditMet ? '✔️' : ''}</strong></p>`;
 
                 if (details.completedCourses.length > 0) {
@@ -226,7 +226,7 @@ function displayResults(data) {
                     for (const groupName of details.remainingGroups) {
                         const coursesInGroup = details.recommendedCoursesByGroup[groupName] || [];
                         const elementId = `courses-list-${groupName.replace(/[^a-zA-Z0-9]/g, '')}`; 
-                        html += `<button class="toggle-button" onclick="toggleCourseList('${elementId}')">${groupName} 과목 목록</button>`;
+                        html += `<button class="toggle-button" onclick="toggleCourseList('${elementId}')"><${groupName}> 과목 목록</button>`;
                     }
 
                     for (const groupName of details.remainingGroups) {
