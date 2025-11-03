@@ -127,7 +127,7 @@ analyzeButton.addEventListener('click', async () => {
         console.log("=====================");
         
         // --- 3. 백엔드로 데이터 전송 ---
-        const response = await fetch('/.netlify/functions/analyze', {
+        const response = await fetch('/api/analyze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: allText, checklist: checklistData }), // ✅ 올바른 데이터 전송
