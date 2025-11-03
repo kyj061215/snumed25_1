@@ -1,6 +1,6 @@
 // ===================================================
 // ❗️❗️ script.js 파일 전체를 이 코드로 덮어쓰세요 ❗️❗️
-// (43번 요청: '예체능' ID 생성 버그 수정)
+// (48번 요청: '학문의 세계', '예체능' 버튼 텍스트 버그 수정)
 // ===================================================
 
 // HTML 요소들을 가져옵니다.
@@ -137,6 +137,8 @@ function displayResults(data) {
         return;
     }
 
+    // ❗️ [핵심 수정] 'for (const category of categoryOrder)' 루프가
+    // 'displayResults' 함수의 유일한 메인 루프인지 확인 (중첩되지 않았는지 확인)
     for (const category of categoryOrder) {
         if (!data[category]) continue;
         const details = data[category];
@@ -170,7 +172,7 @@ function displayResults(data) {
                 }
                 break;
 
-            // ❗️❗️ [버그 수정] 전공 선택 / 예체능 ❗️❗️
+            // ❗️❗️ [버그 수정 1] 전공 선택 / 예체능 ❗️❗️
             case 'credit_count':
                 const isCreditsCompleted = details.remainingCredits === 0;
                 html += `<p class="summary ${isCreditsCompleted ? 'completed' : 'in-progress'}"><strong>상태: ${details.requiredCredits}학점 중 ${details.completedCredits}학점 이수 (${details.remainingCredits}학점 남음) ${isCreditsCompleted ? '✔️' : ''}</strong></p>`;
@@ -180,22 +182,18 @@ function displayResults(data) {
                 }
                 
                 if (details.recommended.length > 0 && !isCreditsCompleted) {
-                    // ❗️ [수정] ID 생성 로직 변경
-                    // 'category' 변수(예: "전공 선택", "예체능")를 직접 사용하여 고유 ID 생성
                     const safeCategoryName = category.replace(/[^a-zA-Z0-9]/g, '');
-                    const elementId = `courses-list-${safeCategoryName}`; // 예: "courses-list-전공선택", "courses-list-예체능"
+                    const elementId = `courses-list-${safeCategoryName}`;
                     
                     html += `<div class="recommendation-area single-button-area">`;
                     html += `<strong>💡 수강 가능 과목 (클릭하여 확인):</strong>`;
                     
-                    // ❗️ [수정] 버튼의 onclick이 올바른 elementId를 참조
+                    // ❗️ [수정] 버튼 텍스트를 'category' 변수와 'details'를 사용하도록 수정
                     html += `<button class="toggle-button" onclick="toggleCourseList('${elementId}')">
-                                 <전공 선택> 과목 목록
+                                 <${category}> 과목 목록(${details.recommended.length}개)
                              </button>`;
                     
                     const courseListHtml = details.recommended.map(course => `<li>${course}</li>`).join('');
-                    
-                    // ❗️ [수정] div의 id가 올바른 elementId를 참조
                     html += `<div id="${elementId}" class="course-list-hidden">
                                  <ul class="recommended-list">${courseListHtml}</ul>
                              </div>`;
@@ -203,7 +201,7 @@ function displayResults(data) {
                 }
                 break;
 
-            // (학문의 세계 - 수정 없음)
+            // ❗️❗️ [버그 수정 2] 학문의 세계 ❗️❗️
             case 'academia_group_count':
                 const isGroupMet = details.completedGroupCount >= details.requiredGroupCount;
                 const isCreditMet = details.totalAcademiaCredits >= details.requiredCredits;
@@ -226,6 +224,8 @@ function displayResults(data) {
                     for (const groupName of details.remainingGroups) {
                         const coursesInGroup = details.recommendedCoursesByGroup[groupName] || [];
                         const elementId = `courses-list-${groupName.replace(/[^a-zA-Z0-9]/g, '')}`; 
+                        
+                        // ❗️ [수정] 꺾쇠(<, >) 오류 수정 및 과목 개수 추가
                         html += `<button class="toggle-button" onclick="toggleCourseList('${elementId}')"><${groupName}> 과목 목록</button>`;
                     }
 
@@ -241,7 +241,7 @@ function displayResults(data) {
                 }
                 break;
                 
-            // (필수 수료 요건 - 수정 없음)
+            // (필수 수료 요건)
             case 'simple_checklist':
                 const completedItems = details.completed.map(key => details.labels[key]);
                 const remainingCheckItems = details.remaining.map(key => details.labels[key]);
@@ -250,7 +250,7 @@ function displayResults(data) {
                 html += `<p><strong>📝 남은 요건:</strong> ${remainingCheckItems.length > 0 ? remainingCheckItems.join(', ') : '모두 완료'}</p>`;
                 break;
 
-            // (선택 수료 요건 - 수정 없음)
+            // (선택 수료 요건)
             case 'count_checklist':
                 const isElecCompleted = details.neededCount === 0;
                 html += `<p class="summary ${isElecCompleted ? 'completed' : 'in-progress'}">
