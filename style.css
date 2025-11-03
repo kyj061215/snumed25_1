@@ -256,58 +256,80 @@ button#analyze-button:hover {
     text-align: center;
 }
 /* ======================================= */
-/* 38번 단계에서 요청한 스타일 코드 */
+/* 39번 단계에서 수정한 최종 스타일 코드 */
 /* ======================================= */
 
-/* 1. "목록 보기" 버튼 (Request 2) */
+/* 1. 공통 추천 영역 래퍼 */
+.recommendation-area {
+    margin-top: 10px;
+}
+
+/* 2. (공통) 토글 버튼 기본 스타일 */
 .toggle-button {
     background-color: #3694f7; /* 서울대 메인 컬러 */
     color: white;
     border: none;
     padding: 8px 12px;
     margin-top: 8px;
-    margin-right: 5px; /* 버튼 간 간격 */
+    margin-right: 5px; 
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
-
 .toggle-button:hover {
-    background-color: #3694f7; /* 더 어두운 파란색 */
+    background-color: #3694f7;
 }
-
 .toggle-button:active {
-    transform: scale(0.98); /* 클릭 시 살짝 눌리는 효과 */
+    transform: scale(0.98);
 }
 
-/* 2. "한 줄에 하나씩" 목록 스타일 (Request 3) */
+/* 3. (공통) 추천 목록 리스트 (숨겨진 상태) */
 .course-list-hidden {
-    /* display: none; */ /* -> JS가 제어하도록 인라인 스타일 제거 */
-    max-height: 0; /* 높이를 0으로 시작 */
-    overflow: hidden; /* 내용 숨김 */
-    transition: max-height 0.3s ease-out; /* 부드러운 펼침 효과 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
     margin: 5px 0 10px 10px;
-    padding: 0px 8px; /* 위아래 패딩 0 */
+    padding: 0px 8px;
     background: #f9f9f9;
     border: 1px solid #eee;
     border-radius: 4px;
 }
-
-/* JS가 이 클래스를 추가하면 목록이 펼쳐짐 */
-.course-list-hidden.visible {
-    max-height: 500px; /* 펼쳐질 최대 높이 (충분히 크게) */
-    padding: 8px; /* 펼쳐질 때 패딩 복구 */
+.course-list-hidden.visible { /* JS가 이 클래스를 추가하면 보임 */
+    max-height: 500px; 
+    padding: 8px;
 }
-
 .recommended-list {
-    list-style-type: disc; /* 불릿 포인트 */
+    list-style-type: disc;
     margin: 0;
-    padding-left: 20px; /* 불릿 포인트용 안쪽 여백 */
-    text-align: left; /* 왼쪽 정렬 */
+    padding-left: 20px;
+    text-align: left;
+}
+.recommended-list li {
+    margin-bottom: 5px;
 }
 
-.recommended-list li {
-    margin-bottom: 5px; /* 항목 간 간격 */
+/* 4. (공통) <strong> 태그 스타일 */
+/* (전공선택/예체능/학문의 세계) 💡 타이틀을 버튼과 분리 */
+.recommendation-area strong {
+    display: block; /* 항상 다음 줄로 내림 */
+    font-size: 15px; /* 살짝 크게 */
+    margin-bottom: 5px;
+}
+
+
+/* 5. ❗️ [R2 요청] "학문의 세계" (multi-button-area) 전용 버튼 레이아웃 */
+.multi-button-area .toggle-button {
+    display: inline-block;
+    width: calc(50% - 6px); /* 50% 너비에서 양쪽 마진 3px씩 뺌 */
+    margin: 3px;
+    box-sizing: border-box; /* 패딩/테두리를 너비에 포함 */
+    vertical-align: top; /* 줄바꿈 시 위쪽 정렬 */
+}
+
+/* 6. (R1 요청) "전공 선택", "예체능" (single-button-area) 버튼 레이아웃 */
+/* (특별한 스타일이 필요 없으므로, .toggle-button 기본 스타일을 따릅니다) */
+.single-button-area .toggle-button {
+    /* 기본 block 스타일을 유지 */
 }
