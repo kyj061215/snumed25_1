@@ -257,7 +257,7 @@ if (extraArtsCredits > 0) {
 const remainingArtsCredits = Math.max(0, requiredArtsCredits - totalArtsCredits);
 
 analysisResult["예체능"] = {
-    description: "3학점 이상 이수해야 합니다. (*도예의 기초, 소묘의 기초, 수묵화의 기초, 수채화의 기초-2학점, 그외 1학점)",
+    description: "3학점 이상 이수해야 합니다. <br>*도예의 기초, 소묘의 기초, 수묵화의 기초, 수채화의 기초-2학점, 그외 1학점",
     displayType: "credit_count", // '전공 선택'과 동일한 표시 형식을 사용
     completed: completedArtsCourses,
     recommended: recommendedArtsCourses,
@@ -291,7 +291,7 @@ requiredChecklistKeys.forEach(key => {
 });
 
 analysisResult["필수 수료 요건"] = {
-    description: "다음 4개 요건을 모두 충족해야 합니다.",
+    description: "아래 4개 요건을 모두 충족해야 합니다.",
     displayType: "simple_checklist", // ★ 새로운 타입
     completed: completedRequiredChecks,
     remaining: remainingRequiredChecks,
@@ -321,7 +321,7 @@ electiveChecklistKeys.forEach(key => {
 const neededElectiveCount = Math.max(0, requiredElectiveCount - completedElectiveChecks.length);
 
 analysisResult["선택 수료 요건"] = {
-    description: `다음 4개 요건 중 2개 이상을 충족해야 합니다.`,
+    description: `4개 요건 중 2개 이상을 충족해야 합니다.`,
     displayType: "count_checklist", // ★ 또다른 새로운 타입
     completed: completedElectiveChecks,
     completedCount: completedElectiveChecks.length,
