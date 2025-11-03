@@ -213,7 +213,10 @@ function displayResults(data) {
                         const elementId = `courses-list-${encodeURIComponent(groupName)}`;
                         const coursesInGroup = details.recommendedCoursesByGroup[groupName] || [];
                         const courseListHtml = coursesInGroup.map(c => `<li>${c}</li>`).join('');
-                        html += `<div id="${elementId}" class="course-list-hidden"><ul class="recommended-list">${courseListHtml}</ul></div>`;
+                        html += `<div id="${elementId}" class="course-list-hidden">
+                                     <h4 class="list-title">〈${groupName}〉 과목 목록</h4>
+                                     <ul class="recommended-list">${courseListHtml}</ul>
+                                 </div>`;
                     }
                     html += '</div>';
                 }
@@ -246,12 +249,27 @@ function displayResults(data) {
     resultArea.innerHTML = html;
 }
 
+// ❗️❗️ [수정] 아코디언 기능 (Request 2) ❗️❗️
 /**
- * 토글 버튼 클릭 시 과목 목록을 보여주거나 숨깁니다.
+ * 토글 버튼 클릭 시, 다른 리스트는 닫고 해당 리스트만 열어줍니다 (아코디언)
+ * @param {string} elementId - 보여주거나 숨길 div의 ID
  */
 function toggleCourseList(elementId) {
-    const listElement = document.getElementById(elementId);
-    if (listElement) {
-        listElement.classList.toggle('visible');
+    const clickedElement = document.getElementById(elementId);
+    if (!clickedElement) return; // 안전 장치
+
+    // 1. 클릭한 리스트가 이미 열려있었는지 확인
+    const isAlreadyVisible = clickedElement.classList.contains('visible');
+
+    // 2. 모든 '.course-list-hidden'을 찾아서 'visible' 클래스 제거 (전부 닫기)
+    const allOpenLists = document.querySelectorAll('.course-list-hidden.visible');
+    allOpenLists.forEach(list => {
+        list.classList.remove('visible');
+    });
+
+    // 3. 만약 클릭한 리스트가 닫혀있었다면, 'visible' 클래스를 추가 (열기)
+    // (이미 열려있었다면, 2단계에서 닫힌 상태로 유지됨)
+    if (!isAlreadyVisible) {
+        clickedElement.classList.add('visible');
     }
 }
