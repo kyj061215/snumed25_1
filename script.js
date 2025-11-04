@@ -84,6 +84,14 @@ analyzeButton.addEventListener('click', async () => {
                 completedCourses.push('음미대, 미학과 전공/교양');
             }
         }
+        // ❗️ [수정] 1-9. "기타" 학점 수집
+        const extraCreditsInput = document.getElementById('extra-credits-input');
+        if (extraCreditsInput && extraCreditsInput.value) {
+             const count = parseInt(extraCreditsInput.value, 10) || 0;
+             for (let i = 0; i < count; i++) {
+                completedCourses.push('기타 학점'); // 1학점 = "기타 학점" 문자열 1개
+             }
+        }
 
         const allText = completedCourses.join(' ');
 
@@ -128,7 +136,7 @@ function displayResults(data) {
     
     const categoryOrder = [
         "전공 필수", "전공 선택", "필수 교양", 
-        "학문의 세계", "예체능", 
+        "학문의 세계", "예체능", "기타",
         "필수 수료 요건", "선택 수료 요건"
     ];
     
@@ -220,6 +228,12 @@ function displayResults(data) {
                     }
                     html += '</div>';
                 }
+                break;
+
+                // ❗️ [수정] "기타" 학점을 위한 새 케이스
+            case 'credit_count_simple':
+                const isOtherCompleted = details.remainingCredits === 0;
+                html += `<p class="summary ${isOtherCompleted ? 'completed' : 'in-progress'}"><strong>상태: ${details.requiredCredits}학점 중 ${details.completedCredits}학점 이수 (${details.remainingCredits}학점 남음) ${isOtherCompleted ? '✔️' : ''}</strong></p>`;
                 break;
                 
             // (필수 수료 요건)
