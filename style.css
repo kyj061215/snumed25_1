@@ -340,7 +340,31 @@ button#analyze-button:hover {
     width: 100%;
     margin: 5px 0;
 }
-
+/* 10. (추가) 필수/선택 요건 리스트 스타일 */
+.requirement-list {
+    list-style-type: '–'; /* 텍스트 기반 불릿 */
+    margin: 10px 0 0 0;
+    padding-left: 20px;
+    text-align: left;
+}
+.requirement-item {
+    margin-bottom: 12px;
+    padding-left: 5px;
+    line-height: 1.4;
+}
+/* (추가) 외부 링크 스타일 */
+.requirement-link {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #004a9e;
+    text-decoration: underline;
+    display: inline; /* 줄바꿈 방지 */
+    margin-left: 5px;
+}
+.requirement-link:hover {
+    color: #00336b;
+    text-decoration: none;
+}
 
 /* ======================================= */
 /* ❗️ 반응형 (모바일) 스타일 ❗️ */
