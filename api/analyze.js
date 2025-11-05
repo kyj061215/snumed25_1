@@ -1,7 +1,10 @@
-// 0. '학문의 세계' 과목 데이터 (함수 밖)
+// 매뉴얼에도 적어놨지만, 자칫 잘못 바꾸면 사이트가 완전히 셧다운될 수 있습니다.
+// 그러니, 수정해야 할 부분이 생길 경우, 교육국 단톡방에 보고 후 조치 부탁드립니다.
+// 가장 중요한건, 모르겠을 땐 gemini에게 물어보는걸 추천드립니다!
+
+// 0. '학문의 세계' 과목 데이터 
 const allAcademiaCourses = [
-    // (이전 단계에서 제공한 '학문의 세계' 150여 개 과목 목록... )
-    // (생략: 코드가 너무 길어지므로 이전 버전을 유지한다고 가정)
+    // 과목명이 바뀌거나, 과목 추가 등을 할 경우, 아래를 수정해주세요!
     { "name": "21세기 한국소설의 이해", "group": "언어와 문학" }, { "name": "고대그리스.로마문학의 세계", "group": "언어와 문학" }, { "name": "그리스.로마 신화", "group": "언어와 문학" },
     { "name": "도스토예프스키와 톨스토이", "group": "언어와 문학" }, { "name": "동서양 명작 읽기", "group": "언어와 문학" }, { "name": "라틴아메리카 문학과 사회", "group": "언어와 문학" },
     { "name": "문학과 정신분석", "group": "언어와 문학" }, { "name": "문학과 공연예술", "group": "언어와 문학" }, { "name": "문학과 철학의 대화", "group": "언어와 문학" },
@@ -55,6 +58,7 @@ const allAcademiaCourses = [
     {"name": "한국정치의 분석과 이해", "group": "정치와 경제" }, { "name": "현대경제의 이해", "group": "정치와 경제" }, { "name": "현대사회와 법", "group": "정치와 경제" },
     {"name": "현대정치의 이해", "group": "정치와 경제" }, { "name": "영화 속 세계정치", "group": "정치와 경제" }
 ];
+// 마찬가지로, 학문의 세계 영역 명을 변경하고 싶은 경우, 아래를 수정해주세요. 이때, 위 과목 group 옆 이름과 아래 영역 이름이 동일해야 합니다.
 const allAcademiaGroups = [
     "언어와 문학", "문화와 예술", "역사와 철학", "인간과 사회", "정치와 경제"
 ];
@@ -65,7 +69,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. 클라이언트 데이터 수신 (req.body)
     const bodyData = req.body || {};
     const allText = bodyData.text || "";
     const checklistData = bodyData.checklist || {};
@@ -73,7 +76,7 @@ export default async function handler(req, res) {
     const analysisResult = {};
 
     // ======================================================
-    // 2. 전공 필수
+    // 2. 전공 필수 과목명 변경을 원하는 경우, 아래를 수정해주세요!
     // ======================================================
     const allRequiredCourses = [
       "의예과신입생세미나", "의학입문", "자유주제탐구",
@@ -95,7 +98,7 @@ export default async function handler(req, res) {
     };
 
     // ======================================================
-    // 3. 전공 선택
+    // 3. 전공 선택 과목명 변경 및 과목 추가를 원하는 경우, 아래를 수정해주세요!
     // ======================================================
     const allElectiveCourses = [
       "국제의학의 이해", "몸 속으로의 여행", "바이오헬스케어와 혁신사고",
@@ -103,6 +106,7 @@ export default async function handler(req, res) {
       "세포분자생물학", "의대생을 위한 고전읽기", "의료와 데이터사이언스",
       "의생명과학 논문의 이해", "의학연구의 실제", "통일의료"
     ];
+      // 이 부분은 2학점 전공 선택을 분석을 위해 따로 빼놓은 부분입니다. 2학점 전선 과목 수정을 원하는 경우, 아래를 수정해주세요! 
     const twoCreditElectives = [
       "국제의학의 이해", "몸 속으로의 여행", "세계예술 속 의학의 이해", "통일의료"
     ];
@@ -139,7 +143,7 @@ export default async function handler(req, res) {
     };
 
     // ======================================================
-    // 4. 필수 교양
+    // 4. 필수 교양 과목명 변경 및 추가를 원하는 경우, 아래를 수정해주세요!
     // ======================================================
     const fixedLiberalArts = [
       "대학글쓰기 1", "대학글쓰기 2: 과학기술글쓰기", "말하기와 토론",
@@ -175,7 +179,7 @@ export default async function handler(req, res) {
     };
 
     // ======================================================
-    // 5. 학문의 세계
+    // 5. 학문의 세계 영역명 및 과목명은 이 파일 맨 위에서 이미 기록이 되어있습니다! 수정을 원하는 경우, 그 부분을 수정해주세요.
     // ======================================================
     const completedAcademiaCourses = [];
     const completedGroups = new Set();
@@ -211,11 +215,9 @@ export default async function handler(req, res) {
       recommendedCoursesByGroup
     };
 
-    // ======================================================
    // ======================================================
-// 6. 예체능 (index.html 기준으로 수정됨)
+// 6. 예체능 과목명 변경 및 과목 추가를 원하는 경우, 아래를 수정해주세요!
 // ======================================================
-// ❗️ index.html의 <option> value와 정확히 일치하는 목록
 const allArtsAndSportsCourses = [
     "교양연주-가야금", "교양연주-거문고", "교양연주-단소", "교양연주-색소폰1",
     "교양연주-합창", "교양연주-해금", "골프초급", "교양연주",
@@ -226,7 +228,7 @@ const allArtsAndSportsCourses = [
     "태권도", "테니스초급", "테니스중급", "핸드볼", "호신술", "한국무용", "현대무용"
 ];
 
-// ❗️ 2학점 과목 목록 (index.html 기준)
+// 예체능에서 분석을 위해 2학점 예체능 실기 과목만 따로 빼놓은 부분입니다. 해당 부분 수정을 원하는 경우, 아래를 수정해주세요!
 const twoCreditArts = ["도예의 기초", "소묘의 기초", "수묵화의 기초", "수채화의 기초"];
 
 const requiredArtsCredits = 3;
@@ -234,26 +236,21 @@ let totalArtsCredits = 0;
 const completedArtsCourses = [];
 const recommendedArtsCourses = [];
 
-// ❗️ (이하 로직은 수정할 필요 없이 동일합니다)
 allArtsAndSportsCourses.forEach(course => {
     if (allText.includes(course)) {
         completedArtsCourses.push(course);
-        // 2학점 과목이면 2를, 아니면 1을 더합니다.
         totalArtsCredits += twoCreditArts.includes(course) ? 2 : 1;
     } else {
         recommendedArtsCourses.push(course);
     }
 });
 
-// "음미대, 미학과" 추가 학점을 계산합니다.
 const extraArtsCredits = (allText.match(/음미대, 미학과 전공\/교양/g) || []).length;
 if (extraArtsCredits > 0) {
     totalArtsCredits += extraArtsCredits;
-    // 이수한 과목 목록에 추가하여 사용자에게 보여줍니다.
     completedArtsCourses.push(`음미대, 인문대 미학과 전공/교양 (${extraArtsCredits}학점)`);
 }
 
-// 남은 학점을 계산합니다.
 const remainingArtsCredits = Math.max(0, requiredArtsCredits - totalArtsCredits);
 
 analysisResult["예체능"] = {
@@ -267,9 +264,8 @@ analysisResult["예체능"] = {
 };
 
       // ======================================================
-// 8. "필수 수료 요건" 분석 (★ 분리)
+// 8. "필수 수료 요건" 분석 파트입니다. 필수 수료 요건이 변경될 경우, 아래를 수정해주세요! 작은 따옴표 안은 그대로 유지하고, 오른쪽의 항목명만 수정하시길 바랍니다!
 // ======================================================
-// (analyze.js 파일의 기존 '8. 비교과' 섹션을 이 코드로 교체하세요)
 
 const requiredChecklistKeys = ['volunteer', 'cpr', 'leadership', 'reading'];
 const completedRequiredChecks = [];
@@ -299,7 +295,7 @@ analysisResult["필수 수료 요건"] = {
 };
 
 // ======================================================
-// 9. "선택 수료 요건" 분석 (★ 분리)
+// 9. "선택 수료 요건" 분석 파트입니다. 선택 수료 요건이 변경될 경우, 아래를 수정해주세요! 작은 따옴표 안은 그대로 유지하고, 오른쪽의 항목명만 수정하시길 바랍니다!
 // ======================================================
 const electiveChecklistKeys = ['human', 'study', 'cpm', 'teps'];
 const completedElectiveChecks = [];
@@ -322,38 +318,30 @@ const neededElectiveCount = Math.max(0, requiredElectiveCount - completedElectiv
 
 analysisResult["선택 수료 요건"] = {
     description: `4개 요건 중 2개 이상을 충족해야 합니다.`,
-    displayType: "count_checklist", // ★ 또다른 새로운 타입
+    displayType: "count_checklist", 
     completed: completedElectiveChecks,
     completedCount: completedElectiveChecks.length,
     requiredCount: requiredElectiveCount,
     neededCount: neededElectiveCount,
     labels: electiveLabels
 };
-// 1. 전공 선택 초과 학점 (최대 7학점)
-    // (remainingCredits는 음수가 될 수 없으므로, total - required로 계산)
+
     let excessElectiveCredits = Math.max(0, totalElectiveCredits - requiredElectiveCredits);
     const ELECTIVE_CAP = 7;
     if (excessElectiveCredits > ELECTIVE_CAP) {
         excessElectiveCredits = ELECTIVE_CAP;
     }
 
-    // 2. 학문의 세계 초과 학점 (캡 없음)
     let excessAcademiaCredits = Math.max(0, totalAcademiaCredits - requiredAcademiaCredits);
 
-    // 3. 예체능 초과 학점 (캡 없음)
     let excessArtsCredits = Math.max(0, totalArtsCredits - requiredArtsCredits);
 
-    // 4. 사용자가 직접 입력한 '기타 학점'
-    // (script.js가 "기타 학점" 문자열을 N개 보내줌)
     const otherCredits = (allText.match(/기타 학점/g) || []).length;
 
-    // 5. 총합 계산
     const requiredOtherCredits = 12;
     const totalOtherCredits = excessElectiveCredits + excessAcademiaCredits + excessArtsCredits + otherCredits;
     const remainingOtherCredits = Math.max(0, requiredOtherCredits - totalOtherCredits);
 
-    // 6. 설명 텍스트 생성
-    // (요청하신 "일반 교양 5학점"은 사용자가 입력한 otherCredits 값으로 대체합니다)
     const otherDescription = `
         *일반 교양 ${otherCredits}학점 + 
         기타(전선 초과 ${excessElectiveCredits}학점 + 
@@ -369,7 +357,6 @@ analysisResult["선택 수료 요건"] = {
         remainingCredits: remainingOtherCredits
     };
 
-    // ✅ 최종 반환
     return res.status(200).json({ success: true, analysisResult });
 
   } catch (error) {
