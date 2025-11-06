@@ -236,7 +236,7 @@ export default async function handler(req, res) {
       isGroupMet
     };
 // ======================================================
-// 6. 베리타스 (3학점 이상) - [새로 추가됨]
+// 6. 베리타스 (3학점 이상) 
 // ======================================================
     const requiredVeritasCredits = 3;
     let totalVeritasCredits = 0;
@@ -410,8 +410,46 @@ analysisResult["선택 수료 요건"] = {
         remainingCredits: remainingOtherCredits
     };
 
-    return res.status(200).json({ success: true, analysisResult });
+// ======================================================
+// 11. 전체 총 이수 학점 합산 (총 합산 학점)
+// ======================================================
+    let totalCompletedCredits = 0;
+    let requiredTotalCredits = 74; // 졸업 요구 학점을 74학점으로 확정합니다.
+    
+    // 졸업 요구 학점의 상세 구성
+    const requiredLiberalArts = 41;
+    const requiredMajor = 26;
+    const requiredOther = 7;
 
+    // ❗️ 계산은 전공/교양 구분 없이 모든 이수 학점을 합산합니다. ❗️
+    // A. 전공 필수
+    totalCompletedCredits += completedRequired.length * 3; 
+    // B. 전공 선택
+    totalCompletedCredits += totalElectiveCredits;
+    // C. 필수 교양 (고정 과목 + 외국어)
+    totalCompletedCredits += fixedLiberalArts.length * 3; 
+    totalCompletedCredits += foreignLanguageOptions.filter(lang => allText.includes(lang)).length * 3; 
+
+    // D. 지성의 열쇠
+    totalCompletedCredits += totalAcademiaCredits;
+    // E. 베리타스
+    totalCompletedCredits += totalVeritasCredits;
+    // F. 예체능
+    totalCompletedCredits += totalArtsCredits;
+    
+    // G. 기타 (일반 교양 및 초과 학점)
+    totalCompletedCredits += totalOtherCredits;
+
+    // 전체 총 이수 학점 결과를 analysisResult에 추가
+    analysisResult["전체 총 이수 학점"] = {
+        description: `총 요구 학점 74학점 (교양 ${requiredLiberalArts}+전공 ${requiredMajor}+기타 ${requiredOther})`, 
+        displayType: "total_credit_summary",
+        completedCredits: totalCompletedCredits,
+        requiredCredits: requiredTotalCredits
+    };
+
+    return res.status(200).json({ success: true, analysisResult });
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: error.message });
