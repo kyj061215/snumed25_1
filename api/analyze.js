@@ -69,14 +69,6 @@ const allAcademiaCourses = [
 const allAcademiaGroups = [
     "문화 해석과 상상", "역사적 탐구와 철학적 사유", "인간의 이해와 사회 분석"
 ];        
-const allVeritasCourses = [
-    // ❗️ 모든 과목은 3학점 가정입니다. ❗️
-    "기후위기와 인류", "데이터로 디자인하는 리더십", "아르스 롱가 - 과학, 음악, 문학의 만남",
-    "인간과 동물", "자유와 정의", "공연만들기", "눈과 마음", "데이터 시각화와 나",
-    "디자인적 사고의 확장적 실천", "사회혁신 디자인하기", "신체조형", "여행의 윤리",
-    "연극적 표현과 실천", "영상 제작을 통해 글로벌 공동체로서의 대학을 재사유하기",
-    "포용사회 실현을 위한 지역커뮤니티 문제해결", "한국전통가창과 노랫말 분석을 통한 미디 창작 및 실습"
-];
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Only POST method allowed" });
@@ -242,24 +234,24 @@ export default async function handler(req, res) {
         const requiredVeritasCredits = 3;
         let totalVeritasCredits = 0;
         const completedVeritasCourses = [];
-        const recommendedVeritasCourses = [];
+        const recommendedVeritasCourses = ["베리타스 교양 과목 (3학점)"]; // 미이수 시 안내 문구
 
-        allVeritasCourses.forEach(course => {
-            if (allText.includes(course)) {
-                completedVeritasCourses.push(course);
-                totalVeritasCredits += 3;
-            } else {
-                recommendedVeritasCourses.push(course);
-            }
-        });
+        // 단일 체크박스의 고유 ID를 확인하고 학점 부여
+        if (allText.includes("베리타스_이수_3학점_단일체크")) {
+            totalVeritasCredits = 3;
+            completedVeritasCourses.push("베리타스 교양 3학점 이수");
+            // 이수했으므로 추천 목록은 비웁니다.
+            recommendedVeritasCourses.length = 0; 
+        }
 
         const remainingVeritasCredits = Math.max(0, requiredVeritasCredits - totalVeritasCredits);
 
         analysisResult["베리타스"] = {
-            description: "3학점 이상 이수해야 합니다. (모든 과목 3학점)",
-            displayType: "credit_count",
+            description: "3학점 이상 이수해야 합니다.",
+            // 이수 여부에 따라 추천 목록을 보여주어 들어야 함을 안내합니다.
+            displayType: "credit_count", 
             completed: completedVeritasCourses,
-            recommended: recommendedVeritasCourses,
+            recommended: recommendedVeritasCourses, // 이수하지 않았을 때만 "베리타스 교양 과목 (3학점)"이 표시됨
             completedCredits: totalVeritasCredits,
             requiredCredits: requiredVeritasCredits,
             remainingCredits: remainingVeritasCredits
