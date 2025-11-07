@@ -309,6 +309,7 @@ case 'academia_extension_group_count':
         }
         html += `</div></div>`;
     }
+    resultArea.innerHTML = html;
 }
 
 
