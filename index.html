@@ -529,57 +529,72 @@
 </div>
             </div>
             
+            <div class="course-section">
+            <h3>7. 기타 (교양 5학점이상, 교양+전선 12학점 이상)</h3>
+            <div class="sub-section">
+                <h4><span class="highlight">위에서 입력하지 않은</span> 그 외 수강한 과목의 총 학점을 입력해주세요.</h4>
+                <div class="extra-option-container">
+                    <label for="extra-credits-input">
+                        기타 학점 (일반 교양, 전공 선택 등)
+                    </label>
+                    <input type="number" id="extra-credits-input" min="0" placeholder="입력" value="0">
+                </div>
+                <p class="description" style="margin-top: 10px;">
+                    *전공 선택, 지성의 열쇠, 베리타스, 예체능에서 최소 요구 학점을 초과한 학점(*교양5학점이상)은 기타에 합산되어 분석됩니다.
+                </p>
+            </div>
+        </div>
             </div>
         
-        <div class="checklist">
-            <h2>필수 수료 요건</h2>
-            <div class="check-item">
-                <input type="checkbox" id="volunteer" name="volunteer">
-                <label for="volunteer">60시간 이상의 봉사활동 (보라매병원 포함)</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="cpr" name="cpr">
-                <label for="cpr">CPR 교육 이수</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="leadership" name="leadership">
-                <label for="leadership">인성·리더십 교육 모듈1, 모듈2 이수</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="reading" name="reading">
-                <label for="reading">독서 일기 20편 이상 제출</label>
-            </div>
-        </div>
-        <div class="checklist">
-            <h2>선택 수료 요건</h2>
-            <div class="check-item">
-                <input type="checkbox" id="human" name="human">
-                <label for="human">인문사회계열 과목 20학점 이상 이수</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="study" name="study">
-                <label for="study">의학 연구의 실제(전선, 3학점) 수강</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="cpm" name="cpm">
-                <label for="cpm">CPM(맞춤형 교육과정) 이수 (*20학점 이상, 평점 2.0 이상)</label>
-            </div>
-            <div class="check-item">
-                <input type="checkbox" id="teps" name="teps">
-                <label for="teps">TEPS 453점, IBT TOEFL 114점 이상 (*수료 직전 3학기 이내 성적)</label>
-            </div>
-        </div>
-        <button id="analyze-button">분석 시작!</button>
-        <p class="error-notice">화면 하단에 분석 결과가 표시됩니다.<br>오류 발생시 담당자에게 연락 부탁드립니다.<br>(교육행정국원 김영주(010-7914-3363))</p>
+            <div class="checklist">
+            <h2>필수 수료 요건</h2>
+            <div class="check-item">
+                <input type="checkbox" id="volunteer" name="volunteer">
+                <label for="volunteer">60시간 이상의 봉사활동 (보라매병원 포함)</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="cpr" name="cpr">
+                <label for="cpr">CPR 교육 이수</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="leadership" name="leadership">
+                <label for="leadership">인성·리더십 교육 모듈1, 모듈2 이수</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="reading" name="reading">
+                <label for="reading">독서 일기 20편 이상 제출</label>
+            </div>
+        </div>
+        <div class="checklist">
+            <h2>선택 수료 요건</h2>
+            <div class="check-item">
+                <input type="checkbox" id="human" name="human">
+                <label for="human">인문사회계열 과목 20학점 이상 이수</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="study" name="study">
+                <label for="study">의학 연구의 실제(전선, 3학점) 수강</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="cpm" name="cpm">
+                <label for="cpm">CPM(맞춤형 교육과정) 이수 (*20학점 이상, 평점 2.0 이상)</label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="teps" name="teps">
+                <label for="teps">TEPS 453점, IBT TOEFL 114점 이상 (*수료 직전 3학기 이내 성적)</label>
+            </div>
+        </div>
+        <button id="analyze-button">분석 시작!</button>
+        <p class="error-notice">화면 하단에 분석 결과가 표시됩니다.<br>오류 발생시 담당자에게 연락 부탁드립니다.<br>(교육행정국원 김영주(010-7914-3363))</p>
 
-        <div id="loading" class="hidden">
-            <p>분석 중입니다... 잠시만 기다려주세요.</p>
-        </div>
-        <div id="result-area">
-            </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+        <div id="loading" class="hidden">
+            <p>분석 중입니다... 잠시만 기다려주세요.</p>
+        </div>
+        <div id="result-area">
+            </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
