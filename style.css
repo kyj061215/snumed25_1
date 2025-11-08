@@ -445,24 +445,28 @@ button#analyze-button:hover {
 }
 /* style.css 파일 가장 하단에 추가/대체할 코드 */
 
-/* 💡 음미대/미학과 전공 항목 제목 자체의 간격 조정 */
+/* 💡 1. 음미대/미학과 전공 항목 제목 자체의 간격 조정 */
+/* margin-bottom: 10px; 으로 설정된 h4 기본값을 덮어씁니다. */
 #arts-major-title {
-    /* 마진을 0으로 강제 설정하여 간격을 최대한 줄입니다. */
-    margin-top: 0px !important; 
-    margin-bottom: 0px !important;
-    padding-top: 0 !important; /* 혹시 모를 패딩도 제거 */
+    margin-top: 5px !important; 
+    margin-bottom: 5px !important;
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
 
-/* 💡 해당 입력 필드를 감싸는 부모 섹션 (.sub-section)의 상단 간격을 줄여서 당깁니다. */
-/* :has() 선택자를 사용하여 해당 h4를 포함하는 .sub-section만 타겟합니다. */
-.sub-section:has(#arts-major-title) {
-    margin-top: -15px !important; /* 위 섹션과의 간격을 더 강력하게 줄입니다. */
-    padding-top: 0 !important; /* 부모 섹션의 상단 패딩도 제거 */
+/* 💡 2. h4 제목과 아래 입력 필드를 감싸는 부모 섹션의 상단 간격을 강제 축소 */
+/* 이 부모 요소가 아마도 넓은 간격의 주범일 가능성이 높습니다. */
+/* .sub-section:last-child는 3.필수 교양의 외국어 섹션에 해당될 수 있어,
+   여기서는 부모(.course-section) 내부의 모든 .sub-section에 더 강력한 규칙을 적용합니다. */
+.course-section > .sub-section {
+    /* 이 항목이 바로 위 예체능 목록과 너무 멀지 않도록 상단 마진을 강하게 축소 */
+    margin-top: 0px !important; 
+    padding-top: 0px !important;
 }
 
-/* 💡 마지막으로, 입력 필드 (.extra-option-container)의 상단 마진도 줄입니다. */
-/* index.html에서 해당 h4 바로 아래 있는 extra-option-container를 타겟합니다. */
-.sub-section:has(#arts-major-title) .extra-option-container {
-    margin-top: 5px !important; /* 입력 필드 상단 마진을 5px로 최소화 */
+/* 💡 3. 입력 필드 컨테이너의 마진도 최소화 (안전 장치) */
+.sub-section .extra-option-container {
+    /* extra-option-container가 가지고 있는 margin-top: 15px;을 덮어씁니다. */
+    margin-top: 5px !important; 
+    padding-top: 5px !important;
 }
