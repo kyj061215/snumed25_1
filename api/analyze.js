@@ -539,37 +539,44 @@ export default async function handler(req, res) {
         // 10. 초과 학점 합산 (기타 섹션 대체)
         // ======================================================
         // 💡 실제 초과 학점 계산 (7학점 캡 적용 전)
-       const actualExcessElectiveCredits = Math.max(0, totalElectiveCredits - requiredElectiveCredits);
-       const ELECTIVE_CAP = 7;
+        const actualExcessElectiveCredits = Math.max(0, totalElectiveCredits - requiredElectiveCredits);
+        const ELECTIVE_CAP = 7;
 
-       // 💡 초과 학점 합산에 포함될 최종 인정 학점 (최대 7학점)
-       let excessElectiveCredits = actualExcessElectiveCredits;
-       if (excessElectiveCredits > ELECTIVE_CAP) {
-           excessElectiveCredits = ELECTIVE_CAP; // 7학점 캡 적용
-       }
+        // 💡 초과 학점 합산에 포함될 최종 인정 학점 (최대 7학점)
+        let excessElectiveCredits = actualExcessElectiveCredits;
+        if (excessElectiveCredits > ELECTIVE_CAP) {
+            excessElectiveCredits = ELECTIVE_CAP; // 7학점 캡 적용
+        }
+
         let excessAcademiaCredits = excessAcademiaCreditTotal; 
         let excessExtensionCredits = totalExtensionCredits; 
         let excessVeritasCredits = Math.max(0, totalVeritasCredits - requiredVeritasCredits); 
         let excessArtsCredits = Math.max(0, totalArtsCredits - requiredArtsCredits);
 
-        const requiredOtherCredits = 0; 
-        const remainingOtherCredits = 0; 
+        // 💡 수정: 총 필요 학점을 12로 설정
+        const requiredOtherCredits = 12; 
+        const totalOtherCredits = excessElectiveCredits + excessAcademiaCredits + excessExtensionCredits + excessVeritasCredits + excessArtsCredits;
+        // 💡 수정: 남은 학점 계산
+        const remainingOtherCredits = Math.max(0, requiredOtherCredits - totalOtherCredits); 
 
-        // 초과 학점만 합산
-        const totalOtherCredits = excessElectiveCredits + excessAcademiaCredits + excessExtensionCredits + excessArtsCredits;
-        
-        const otherDescription = `
-            *초과 교양 학점 합산 (전선 초과 ${excessElectiveCredits}학점 + 
-            지성의열쇠 초과 ${excessAcademiaCredits}학점 + 
-            지성의확장 ${totalExtensionCredits}학점 +
-            예체능 초과 ${excessArtsCredits}학점)
+        // 💡 수정된 설명: 12학점 기준과 전공 7학점 제한 명시 (베리타스 제외)
+        const otherDescription = `<br>
+            *총 ${requiredOtherCredits}학점 이상 이수해야 합니다. <br>
+            (전공 초과 학점 인정: **${actualExcessElectiveCredits}학점 이수** 중 **최대 ${ELECTIVE_CAP}학점**까지 인정) <br>
+            <br>
+            합산 내역: <br>
+            - 전공 선택 초과 (인정 학점): ${excessElectiveCredits}학점 <br>
+            - 지성의 열쇠 초과: ${excessAcademiaCredits}학점 <br>
+            - 지성의 확장 (전체): ${totalExtensionCredits}학점 <br>
+            - 예체능 초과: ${excessArtsCredits}학점 <br>
+            (베리타스 초과 학점은 합산에서 제외됩니다.)
         `;
 
         analysisResult["초과 학점 합산"] = {
             description: otherDescription,
             displayType: "credit_count_simple",
             completedCredits: totalOtherCredits,
-            requiredCredits: requiredOtherCredits,
+            requiredCredits: requiredOtherCredits, // 이 값이 12가 되어야 합니다.
             remainingCredits: remainingOtherCredits
         };
 
