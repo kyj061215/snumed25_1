@@ -61,7 +61,7 @@ const allAcademiaCourses = [
     {"name": "테마 중국사", "group": "역사적 탐구와 철학적 사유"}, {"name": "페미니즘 미학과 예술", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국 중세의 사회와 문화", "group": "역사적 탐구와 철학적 사유"},  
     {"name": "한국고대사의 쟁점", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국문화와 불교", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국문화와 유교사회", "group": "역사적 탐구와 철학적 사유"},  
     {"name": "한국사", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국사의 새로운 해석", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국의 문화유산", "group": "역사적 탐구와 철학적 사유"},  
-    {"name": "한국의 역사가와 역사학", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국현대사의 이해", "group": "역사적 탐구와 철학적 사유"}, {"name": "현대사회와 윤리", "group": "역사적 탐구와 철학적 사유"},  
+    {"name": "한국의 역사가와 역사학", "group": "역사적 탐구와 철학적 사유"}, {"name": "한국현대사의 이해", "group": "역사적 탐구와 철학적 사유"}, {"name": "현대사회와 윤리", "group": "인간의 이해와 사회 분석"},  
     {"name": "현대서양의 형성", "group": "역사적 탐구와 철학적 사유"},
     {"name": "경영학개론", "group": "인간의 이해와 사회 분석"}, {"name": "공공행정의 이해", "group": "인간의 이해와 사회 분석"}, {"name": "교육의 이해", "group": "인간의 이해와 사회 분석"},  
     {"name": "국가와 시민", "group": "인간의 이해와 사회 분석"}, {"name": "국제정치학입문", "group": "인간의 이해와 사회 분석"}, {"name": "글로벌 이슈와 윤리적 사고", "group": "인간의 이해와 사회 분석"},  
@@ -184,7 +184,7 @@ export default async function handler(req, res) {
         const completedRequired = [];
         const remainingRequired = [];
 
-        // 💡 수정: 정규 표현식 매칭 로직 적용 (검색 완화)
+        // 💡 수정: 단순 includes로 복구
         allRequiredCourses.forEach(course => {
             if (allText.includes(course)) completedRequired.push(course);
             else remainingRequired.push(course);
@@ -215,7 +215,7 @@ export default async function handler(req, res) {
         const completedElectiveCourses = [];
         const recommendedElectiveCourses = [];
 
-       // 💡 수정: 정규 표현식 매칭 로직 적용 (검색 완화)
+        // 💡 수정: 단순 includes로 복구
         allElectiveCourses.forEach(course => {
             if (allText.includes(course)) {
                 completedElectiveCourses.push(course);
@@ -261,14 +261,14 @@ export default async function handler(req, res) {
         const completedLiberalArts = [];
         const remainingLiberalArts = [];
 
-        // 💡 수정: 정규 표현식 매칭 로직 적용 (검색 완화)
+        // 💡 수정: 단순 includes로 복구
         fixedLiberalArts.forEach(course => {
              if (allText.includes(course)) completedLiberalArts.push(course);
             else remainingLiberalArts.push(course);
         });
 
         let foreignLanguageCount = 0;
-        // 💡 수정: 정규 표현식 매칭 로직 적용 (검색 완화)
+        // 💡 수정: 단순 includes로 복구
         foreignLanguageOptions.forEach(lang => {
             if (allText.includes(lang)) {
                 completedLiberalArts.push(lang);
@@ -303,12 +303,11 @@ export default async function handler(req, res) {
 
         // 1. 지성의 열쇠 (4개 영역) 분석 - Accumulate all credits by group
         allAcademiaCourses.forEach(course => {
-            const courseRegex = createSafeRegex(course.name);
             // 💡 배타적 규칙: 겹치는 과목이 예체능으로 선택되지 않았을 때만 지성 교양 학점에 반영
             const isSelectedAsArts = allSharedArtsCourses.includes(course.name) && 
-                                     allText.match(createSafeRegex(course.name + "-3학점_예체능"));
+                                     allText.includes(course.name + "-3학점_예체능");
 
-            if (allText.match(courseRegex) && !isSelectedAsArts) { 
+            if (allText.includes(course.name) && !isSelectedAsArts) { 
                 completedAcademiaCourses.push(course);
                 completedGroupCredits[course.group] = (completedGroupCredits[course.group] || 0) + 3;
             }
@@ -316,12 +315,11 @@ export default async function handler(req, res) {
         
         // 2. 지성의 확장 분석 (학점 예외 처리 포함)
         allExtensionCourses.forEach(course => {
-            const courseRegex = createSafeRegex(course.name);
             // 💡 배타적 규칙: 겹치는 과목이 예체능으로 선택되지 않았을 때만 지성의 확장 학점에 반영
             const isSelectedAsArts = allSharedArtsCourses.includes(course.name) && 
-                                     allText.match(createSafeRegex(course.name + "-3학점_예체능"));
+                                     allText.includes(course.name + "-3학점_예체능");
                                      
-            if (allText.match(courseRegex) && !isSelectedAsArts) {
+            if (allText.includes(course.name) && !isSelectedAsArts) {
                 completedExtensionCourses.push(course);
                 totalExtensionCredits += course.credit;
             }
@@ -381,8 +379,7 @@ export default async function handler(req, res) {
         const recommendedVeritasCourses = ["베리타스 교양 과목 (3학점)"]; // 미이수 시 안내 문구
 
         // 단일 체크박스의 고유 ID를 확인하고 학점 부여
-        const veritasRegex = createSafeRegex("베리타스_이수_3학점_단일체크");
-        if (allText.match(veritasRegex)) { 
+        if (allText.includes("베리타스_이수_3학점_단일체크")) { 
             totalVeritasCredits = 3;
             completedVeritasCourses.push("베리타스 교양 3학점 이수");
             recommendedVeritasCourses.length = 0; 
@@ -426,8 +423,7 @@ export default async function handler(req, res) {
 
         // 1. 1/2학점 강의 계산
         allArtsAndSportsCourses.forEach(course => {
-           const courseRegex = createSafeRegex(course);
-            if (allText.match(courseRegex)) {
+            if (allText.includes(course)) {
                 completedArtsCourses.push(course);
                 totalArtsCredits += twoCreditArts.includes(course) ? 2 : 1;
             } else {
@@ -439,9 +435,7 @@ export default async function handler(req, res) {
         threeCreditArts.forEach(course => {
             // 💡 3학점 예체능으로 선택된 경우를 찾기 위해 고유한 value를 사용
             const artsValue = course + "-3학점_예체능";
-            const courseRegex = createSafeRegex(artsValue);
-
-            if (allText.match(courseRegex)) {
+            if (allText.includes(artsValue)) {
                 completedArtsCourses.push(course + " (3학점)"); // 결과 표시를 위해 3학점 명시
                 totalArtsCredits += 3;
             } else {
@@ -450,7 +444,7 @@ export default async function handler(req, res) {
         });
 
         // 3. 음미대/미학과 전공 학점 계산 (기존 로직 유지)
-        const extraArtsCredits = (allText.match(createSafeRegex("음미대, 미학과 전공/교양")) || []).length;
+        const extraArtsCredits = (allText.match(/음미대, 미학과 전공\/교양/g) || []).length;
         if (extraArtsCredits > 0) {
             totalArtsCredits += extraArtsCredits;
             completedArtsCourses.push(`음미대, 인문대 미학과 전공/교양 (${extraArtsCredits}학점)`);
