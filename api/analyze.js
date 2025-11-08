@@ -569,7 +569,6 @@ export default async function handler(req, res) {
             - 지성의 열쇠 초과: ${excessAcademiaCredits}학점 <br>
             - 지성의 확장 (전체): ${totalExtensionCredits}학점 <br>
             - 예체능 초과: ${excessArtsCredits}학점 <br>
-            (베리타스 초과 학점은 합산에서 제외됩니다.)
         `;
 
         analysisResult["초과 학점 합산"] = {
