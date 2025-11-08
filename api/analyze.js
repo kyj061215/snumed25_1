@@ -538,12 +538,15 @@ export default async function handler(req, res) {
         // ======================================================
         // 10. 초과 학점 합산 (기타 섹션 대체)
         // ======================================================
-        let excessElectiveCredits = Math.max(0, totalElectiveCredits - requiredElectiveCredits);
-        const ELECTIVE_CAP = 7;
-        if (excessElectiveCredits > ELECTIVE_CAP) {
-            excessElectiveCredits = ELECTIVE_CAP;
-        }
+        // 💡 실제 초과 학점 계산 (7학점 캡 적용 전)
+       const actualExcessElectiveCredits = Math.max(0, totalElectiveCredits - requiredElectiveCredits);
+       const ELECTIVE_CAP = 7;
 
+       // 💡 초과 학점 합산에 포함될 최종 인정 학점 (최대 7학점)
+       let excessElectiveCredits = actualExcessElectiveCredits;
+       if (excessElectiveCredits > ELECTIVE_CAP) {
+           excessElectiveCredits = ELECTIVE_CAP; // 7학점 캡 적용
+       }
         let excessAcademiaCredits = excessAcademiaCreditTotal; 
         let excessExtensionCredits = totalExtensionCredits; 
         let excessVeritasCredits = Math.max(0, totalVeritasCredits - requiredVeritasCredits); 
