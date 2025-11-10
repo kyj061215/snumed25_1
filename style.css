@@ -474,3 +474,29 @@ button#analyze-button:hover {
         flex-direction: row; 
     }
 }
+/* style.css 수정/추가 */
+
+/* 1. 예체능 섹션 내부의 h4 제목 여백을 타이트하게 조정 */
+/* 이렇게 하면 다른 섹션의 h4에는 영향을 주지 않습니다. */
+#section-arts-and-sports h4 {
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-top: 10px; 
+    margin-bottom: 5px; /* 상/하 여백 축소 */
+}
+
+/* 2. 예체능 섹션 내부의 동적 입력 필드 컨테이너 여백을 타이트하게 조정 */
+/* '음미대, 미학과 전공/교양' 입력 필드가 포함된 부분입니다. */
+#section-arts-and-sports .extra-option-container {
+    /* 이 부분이 가장 넓어 보이던 간격입니다. 상/하 여백을 5px로 최소화합니다. */
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+/* 3. 예체능 섹션 자체의 상/하 간격이 문제일 경우, 필요하다면 섹션 자체의 마진을 조정할 수 있습니다. */
+/* #section-arts-and-sports {
+    margin-bottom: 10px; 
+} */
