@@ -455,3 +455,22 @@ button#analyze-button:hover {
         box-sizing: border-box;
     }
 }
+/* 💡 추가: 베리타스 항목은 입력 칸이 없으므로, flex-direction을 유지하고 필요 없는 스타일을 재정의 */
+.extra-option-container.veritas-option {
+    /* 타단과대 항목의 .extra-option-container와 달리 */
+    flex-direction: row; /* 데스크톱/모바일 모두 한 줄로 표시 */
+    align-items: center; 
+}
+.extra-option-container.veritas-option label {
+    margin-bottom: 0; /* 불필요한 마진 제거 */
+}
+
+/* ❗️ 모바일 미디어 쿼리 @media (max-width: 600px) 내부에도 추가 ❗️ */
+@media (max-width: 600px) {
+    /* ... (기존 모바일 스타일 유지) ... */
+    
+    /* 💡 추가: 베리타스는 모바일에서도 줄바꿈 방지 */
+    .extra-option-container.veritas-option {
+        flex-direction: row; 
+    }
+}
