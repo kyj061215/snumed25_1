@@ -443,7 +443,10 @@ button#analyze-button:hover {
     border-radius: 5px;
 
 }
-
+  .extra-arts-title {
+      margin-bottom: 3px;
+      margin-top: 15px;
+  }
 
 
 .extra-option-container label {
